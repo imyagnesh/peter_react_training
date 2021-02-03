@@ -1,11 +1,9 @@
-// import { a, b, c } from './home';
-import * as abc from './home';
+import React from 'react'
+import ReactDOM from 'react-dom'
 
-console.log(abc.a);
-console.log(abc.b);
-console.log(abc.c);
+// Function Component
+const App = () => {
+    return <h1>Hello</h1>
+}
 
-// console.log(a)
-// console.log(b)
-// console.log(c)
-
+ReactDOM.render(<App />, document.getElementById('root'));
