@@ -1,9 +1,16 @@
-import React from 'react'
-import ReactDOM from 'react-dom'
+import React, { Component, useState } from "react";
+import ReactDOM from "react-dom";
+// import App from './App'
+import { index as Todo } from "./Todo";
+// const a = 10;
 
-// Function Component
-const App = () => {
-    return <h1>Hello</h1>
-}
+// const obj = {
+//   a: 1,
+//   b: 2
+// }
 
-ReactDOM.render(<App />, document.getElementById('root'));
+// const { a: aa } = obj
+
+// in html this is called attribute
+// in react text is called as props(properties)
+ReactDOM.render(<Todo />, document.getElementById("root"));
