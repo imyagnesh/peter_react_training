@@ -28,6 +28,15 @@ export const index = () => {
     setTodoList(updatedTodoList);
   }
 
+  const deleteTodo = (todoItem) => {
+    const index = todoList.findIndex(todo => todo.id === todoItem.id);
+    const updatedTodoList = [
+        ...todoList.slice(0, index),
+        ...todoList.slice(index + 1)
+    ]
+    setTodoList(updatedTodoList);
+  }
+
   return (
     <div>
       <h1>Todo App</h1>
@@ -48,7 +57,7 @@ export const index = () => {
           >
             <input type="checkbox" value={todo.isDone} onChange={() => completeTodo(todo)} />
             <h3 style={{ flex: 1, padding: "0 10px", textDecoration: todo.isDone ? 'line-through' : 'none' }}>{todo.todoText}</h3>
-            <input type="button" value="Delete" />
+            <input type="button" value="Delete" onClick={() => deleteTodo(todo)} />
           </div>
         </For>
         {/* {todoList.map((todo) => (
