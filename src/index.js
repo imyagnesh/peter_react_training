@@ -1,7 +1,7 @@
-import React, { Component, useState } from "react";
-import ReactDOM from "react-dom";
+import React from 'react';
+import ReactDOM from 'react-dom';
 // import App from './App'
-import { index as Todo } from "./Todo";
+import Todo from './Todo';
 // const a = 10;
 
 // const obj = {
@@ -13,4 +13,4 @@ import { index as Todo } from "./Todo";
 
 // in html this is called attribute
 // in react text is called as props(properties)
-ReactDOM.render(<Todo />, document.getElementById("root"));
+ReactDOM.render(<Todo />, document.getElementById('root'));

@@ -21,16 +21,14 @@
 // console.log(add(1,2))
 
 const add = (...rest) => {
-    let sum = 0;
-    for (let i = 0; i < rest.length; i++) {
-        sum += rest[i];
-    }
-    return sum;
-}
+  let sum = 0;
+  for (let i = 0; i < rest.length; i++) {
+    sum += rest[i];
+  }
+  return sum;
+};
 
 console.log(add(1, 2, 3));
-
-
 
 // const calc = (operation, ...rest) => {
 //     if (operation === 'add') {
@@ -49,26 +47,20 @@ console.log(add(1, 2, 3));
 //     }
 // }
 
-const calc = (...rest) => {
-    return (operation) => {
-        return operation(...rest);
-    }
-}
+const calc = (...rest) => (operation) => operation(...rest);
 
 const mul = (...rest) => {
-    let multiply;
-    for (let i = 0; i < rest.length; i++) {
-        if(!multiply) {
-            multiply = rest[i]
-        }
-        multiply *= rest[i]
+  let multiply;
+  for (let i = 0; i < rest.length; i++) {
+    if (!multiply) {
+      multiply = rest[i];
     }
-    throw new Error('errro....')
-    return multiply;
-}
+    multiply *= rest[i];
+  }
+  throw new Error('errro....');
+  return multiply;
+};
 
-console.log(calc(1,2,3,4)(add));
-console.log(add(1,2,3))
+console.log(calc(1, 2, 3, 4)(add));
+console.log(add(1, 2, 3));
 // console.log(calc(1,2,3,4)(mul));
-
-

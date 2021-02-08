@@ -1,11 +1,12 @@
-import React, { Component, useState, useEffect } from "react";
+import React, { useState, useEffect } from 'react';
 
-const App = ({ text, caption}) => {
-  const abc =  'inner variable';
+const App = ({ text, caption }) => {
+  const abc = 'inner variable';
   const [state, setState] = useState(`Hello, ${text}`);
+
   const [stateCaption, setStateCaption] = useState(`Hello, ${caption}`);
 
-  // useEffect life cyle is combination of 
+  // useEffect life cyle is combination of
   // component did mount
   // -> when you pass empty array as second parameter
   // component did update
@@ -16,11 +17,11 @@ const App = ({ text, caption}) => {
     console.log('component did mount');
     const timer = setTimeout(() => {
       console.log('hello');
-    }, 1000)
+    }, 1000);
 
     return () => {
       clearTimeout(timer);
-    }
+    };
     // if you want to use component did mount you have to provide empty array
   }, []);
 
@@ -29,20 +30,20 @@ const App = ({ text, caption}) => {
   // this will degrade the performace of componet
   useEffect(() => {
     console.log('Combination of component did mount and component did update');
-  })
+  });
 
   // componennt did update only when state value change
   useEffect(() => {
     console.log('called when only state value change');
-  }, [state, stateCaption])
+  }, [state, stateCaption]);
 
   const changeText = () => {
     setState('change text');
-  }
+  };
 
   const changeCaption = () => {
     setStateCaption('change caption');
-  }
+  };
 
   return (
     <div>
