@@ -3,23 +3,26 @@
 // any
 // allsettled
 
-const p1 = () => new Promise((resolve, reject) => {
-  setTimeout(() => {
-    reject('p1');
-  }, 50);
-});
+const p1 = () =>
+  new Promise((resolve, reject) => {
+    setTimeout(() => {
+      reject('p1');
+    }, 50);
+  });
 
-const login = () => new Promise((resolve, reject) => {
-  setTimeout(() => {
-    resolve('a');
-  }, 100);
-});
+const login = () =>
+  new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve('a');
+    }, 100);
+  });
 
-const users = () => new Promise((resolve, reject) => {
-  setTimeout(() => {
-    resolve('b');
-  }, 200);
-});
+const users = () =>
+  new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve('b');
+    }, 200);
+  });
 
 const apiCalls = async () => {
   try {
@@ -30,13 +33,9 @@ const apiCalls = async () => {
     // console.timeEnd('noraml promise')
     // console.log(r2);
     console.time('promise all');
-    const result = await Promise.allSettled([
-      p1(),
-      login(),
-      users(),
-    ]);
+    const result = await Promise.allSettled([p1(), login(), users()]);
     console.log(result);
-    console.log(result.filter((x) => x.status === 'fulfilled'));
+    console.log(result.filter(x => x.status === 'fulfilled'));
     console.timeEnd('promise all');
   } catch (error) {
     console.log(error);

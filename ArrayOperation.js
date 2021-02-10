@@ -13,7 +13,7 @@ const arr = [1, 2, 3, 4, 5];
 const arr1 = [6, ...arr];
 console.log(arr1);
 
-const index = arr.findIndex((value) => value === 3);
+const index = arr.findIndex(value => value === 3);
 
 console.log(index);
 
@@ -27,12 +27,12 @@ console.log(index);
 // [1,2, 6,3,4,5]
 // update value
 const arr3 = [...arr.slice(0, index), 6, ...arr.slice(index + 1)];
-const arr31 = arr.map((x) => (x === 3 ? 6 : x));
+const arr31 = arr.map(x => (x === 3 ? 6 : x));
 console.log(arr3);
 console.log(arr31);
 // remove value
 const arr4 = [...arr.slice(0, index), ...arr.slice(index + 1)];
-const arr41 = arr.filter((x) => x !== 3);
+const arr41 = arr.filter(x => x !== 3);
 console.log(arr4);
 console.log(arr41);
 // add value at position

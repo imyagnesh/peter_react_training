@@ -1,5 +1,3 @@
-
-
 // Object Oriented Programing Concepts
 
 // Abstraction  -> Just revile Related information to end user
@@ -7,61 +5,58 @@
 // Inhteritance -> code reusability
 // Polimorphysome  -> expose related thing
 
-
 // function Animal(type) {
 
 // }
 
 // Animal()
 
-
 // const abc =  'abc';
 
 class Animal {
-    constructor(type) {
-        console.log(type);
-        this.type = type;
-        // call only once when will create instance
-    }
+  constructor(type) {
+    console.log(type);
+    this.type = type;
+    // call only once when will create instance
+  }
 
-    set type(value) {
-        this._type = value.toUpperCase()
-    }
+  set type(value) {
+    this._type = value.toUpperCase();
+  }
 
-    get type() {
-        return this._type
-    }
+  get type() {
+    return this._type;
+  }
 
-    makeSound() {
-        console.log(this.type)
-        if (this.type === 'DOG') {
-            console.log('bow wow');
-        } else {
-            console.log('Meow...');
-        }
+  makeSound() {
+    console.log(this.type);
+    if (this.type === 'DOG') {
+      console.log('bow wow');
+    } else {
+      console.log('Meow...');
     }
+  }
 
-    static a = 1;
+  static a = 1;
 
-    static sayHello() {
-        console.log('hello');
-    }
+  static sayHello() {
+    console.log('hello');
+  }
 }
 
 class Dog extends Animal {
-    constructor() {
-        super('Dog')
-    }
+  constructor() {
+    super('Dog');
+  }
 
-    makeSound() {
-        super.makeSound()
-    }
+  makeSound() {
+    super.makeSound();
+  }
 }
 
-const d = new Dog()
+const d = new Dog();
 
-d.makeSound()
-
+d.makeSound();
 
 // // instance of the object
 // const a = new Animal('dog')

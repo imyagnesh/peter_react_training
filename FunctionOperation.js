@@ -47,7 +47,7 @@ console.log(add(1, 2, 3));
 //     }
 // }
 
-const calc = (...rest) => (operation) => operation(...rest);
+const calc = (...rest) => operation => operation(...rest);
 
 const mul = (...rest) => {
   let multiply;

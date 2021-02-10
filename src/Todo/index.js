@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import styled from 'styled-components';
-import { FILTET_TYPE_ALL, FILTET_TYPE_COMPLETED, FILTET_TYPE_PENDING } from '../constants';
-
-const Label = styled.label`
-  color: green
-`;
+import { FILTET_TYPE_ALL } from '../constants';
+import TodoFooter from './TodoFooter';
+import TodoForm from './TodoForm';
+import TodoList from './TodoList';
 
 const Container = styled.div`
   display: flex;
@@ -12,41 +11,37 @@ const Container = styled.div`
   align-items: center;
 `;
 
-const TodoContainer = styled.div`
-  display: flex;
-  align-items: center;
-`;
-
-const TodoText = styled.h3`
-  flex: 1;
-  padding: 0 20px;
-  text-decoration: ${(props) => (props.isDone ? 'line-through' : 'none')};
-`;
-
 const index = () => {
-  const [todoText, setTodoText] = useState('');
+  console.log('index file');
   const [todoList, setTodoList] = useState([]);
   const [filterType, setFilterType] = useState(FILTET_TYPE_ALL);
+  const title = useRef();
 
-  useEffect(() => () => {
+  useEffect(() => {
+    const loadTodoList = async () => {
+      const res = await fetch('http://localhost:3000/todoList');
+      const json = await res.json();
+      setTodoList(json);
+    };
+    loadTodoList();
   }, []);
 
-  const onChangeText = (event) => {
-    setTodoText(event.target.value);
-  };
-
-  const addTodo = (event) => {
+  const addTodo = async (event, todoText) => {
     event.preventDefault();
-    const newTodo = [
-      { todoText, isDone: false, id: new Date().valueOf() },
-      ...todoList,
-    ];
-    setTodoList(newTodo);
-    setTodoText('');
+    const res = await fetch('http://localhost:3000/todoList', {
+      method: 'POST',
+      body: JSON.stringify({ todoText, isDone: false }),
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
+    });
+    const json = await res.json();
+    setTodoList([json, ...todoList]);
   };
 
-  const completeTodo = (todoItem) => {
-    const updatedTodoList = todoList.map((todo) => {
+  const completeTodo = todoItem => {
+    const updatedTodoList = todoList.map(todo => {
       if (todo.id === todoItem.id) {
         return { ...todo, isDone: !todo.isDone };
       }
@@ -55,52 +50,23 @@ const index = () => {
     setTodoList(updatedTodoList);
   };
 
-  const deleteTodo = (todoItem) => {
-    const i = todoList.findIndex((todo) => todo.id === todoItem.id);
-    const updatedTodoList = [
-      ...todoList.slice(0, i),
-      ...todoList.slice(i + 1),
-    ];
+  const deleteTodo = todoItem => {
+    const i = todoList.findIndex(todo => todo.id === todoItem.id);
+    const updatedTodoList = [...todoList.slice(0, i), ...todoList.slice(i + 1)];
     setTodoList(updatedTodoList);
   };
 
   return (
     <Container>
-      <h1>Todo App</h1>
-      <div>
-        <form onSubmit={addTodo}>
-          <Label htmlFor="addTask">Add Task</Label>
-          <input id="addTask" placeholder="Write your task here..." type="text" value={todoText} onChange={onChangeText} />
-          <input type="submit" value="Add Todo" />
-        </form>
-      </div>
-      <div>
-        <For
-          each="todo"
-          of={todoList.filter((x) => {
-            if (filterType === FILTET_TYPE_COMPLETED) {
-              return x.isDone === true;
-            } if (filterType === FILTET_TYPE_PENDING) {
-              return x.isDone === false;
-            }
-            return true;
-          })}
-        >
-          <TodoContainer
-            key={todo.id}
-
-          >
-            <input type="checkbox" value={todo.isDone} onChange={() => completeTodo(todo)} />
-            <TodoText isDone={todo.isDone}>{todo.todoText}</TodoText>
-            <input type="button" value="Delete" onClick={() => deleteTodo(todo)} />
-          </TodoContainer>
-        </For>
-        <div>
-          <input type="button" value="All Tasks" onClick={() => setFilterType(FILTET_TYPE_ALL)} />
-          <input type="button" value="Pending Tasks" onClick={() => setFilterType(FILTET_TYPE_PENDING)} />
-          <input type="button" value="Completed Tasks" onClick={() => setFilterType(FILTET_TYPE_COMPLETED)} />
-        </div>
-      </div>
+      <h1 ref={title}>Todo App</h1>
+      <TodoForm addTodo={addTodo} />
+      <TodoList
+        todoList={todoList}
+        filterType={filterType}
+        completeTodo={completeTodo}
+        deleteTodo={deleteTodo}
+      />
+      <TodoFooter setFilterType={setFilterType} />
     </Container>
   );
 };
