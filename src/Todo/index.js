@@ -1,9 +1,20 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useReducer } from 'react';
 import styled from 'styled-components';
-import { FILTET_TYPE_ALL } from '../constants';
+import {
+  ADD_TODO,
+  DELETE_TODO,
+  FAIL,
+  FILTET_TYPE_ALL,
+  LOAD_TODO,
+  REQUEST,
+  SUCCESS,
+  UPDATE_TODO,
+} from '../constants';
 import TodoFooter from './TodoFooter';
 import TodoForm from './TodoForm';
 import TodoList from './TodoList';
+import axios from '../utils/axios';
+import todoReducer, { initialState } from './todoReducer';
 
 const Container = styled.div`
   display: flex;
@@ -12,61 +23,75 @@ const Container = styled.div`
 `;
 
 const index = () => {
-  console.log('index file');
-  const [todoList, setTodoList] = useState([]);
-  const [filterType, setFilterType] = useState(FILTET_TYPE_ALL);
+  const [state, dispatch] = useReducer(todoReducer, initialState);
   const title = useRef();
 
   useEffect(() => {
     const loadTodoList = async () => {
-      const res = await fetch('http://localhost:3000/todoList');
-      const json = await res.json();
-      setTodoList(json);
+      try {
+        dispatch({ type: `${LOAD_TODO}_${REQUEST}` });
+        const res = await axios.get('todoList');
+        dispatch({ type: `${LOAD_TODO}_${SUCCESS}`, payload: res.data });
+      } catch (err) {
+        dispatch({ type: `${LOAD_TODO}_${FAIL}`, payload: err });
+      }
     };
     loadTodoList();
   }, []);
 
   const addTodo = async (event, todoText) => {
-    event.preventDefault();
-    const res = await fetch('http://localhost:3000/todoList', {
-      method: 'POST',
-      body: JSON.stringify({ todoText, isDone: false }),
-      headers: {
-        'Content-Type': 'application/json',
-        Accept: 'application/json',
-      },
-    });
-    const json = await res.json();
-    setTodoList([json, ...todoList]);
+    try {
+      event.preventDefault();
+      dispatch({ type: `${ADD_TODO}_${REQUEST}` });
+      const res = await axios.post('todoList', { todoText, isDone: false });
+      dispatch({ type: `${ADD_TODO}_${SUCCESS}`, payload: res.data });
+    } catch (err) {
+      dispatch({ type: `${ADD_TODO}_${FAIL}`, payload: err });
+    }
   };
 
-  const completeTodo = todoItem => {
-    const updatedTodoList = todoList.map(todo => {
-      if (todo.id === todoItem.id) {
-        return { ...todo, isDone: !todo.isDone };
-      }
-      return todo;
-    });
-    setTodoList(updatedTodoList);
+  const completeTodo = async todoItem => {
+    try {
+      dispatch({ type: `${UPDATE_TODO}_${REQUEST}` });
+      const res = await axios.put(`todoList/${todoItem.id}`, {
+        ...todoItem,
+        isDone: !todoItem.isDone,
+      });
+      dispatch({ type: `${UPDATE_TODO}_${SUCCESS}`, payload: res.data });
+    } catch (err) {
+      dispatch({ type: `${UPDATE_TODO}_${FAIL}`, payload: err });
+    }
   };
 
-  const deleteTodo = todoItem => {
-    const i = todoList.findIndex(todo => todo.id === todoItem.id);
-    const updatedTodoList = [...todoList.slice(0, i), ...todoList.slice(i + 1)];
-    setTodoList(updatedTodoList);
+  const deleteTodo = async todoItem => {
+    try {
+      dispatch({ type: `${DELETE_TODO}_${REQUEST}` });
+      await axios.delete(`todoList/${todoItem.id}`);
+      dispatch({ type: `${DELETE_TODO}_${SUCCESS}`, payload: todoItem });
+    } catch (err) {
+      dispatch({ type: `${DELETE_TODO}_${FAIL}`, payload: err });
+    }
   };
+
+  if (state.loading) {
+    return <h1>Loading....</h1>;
+  }
+
+  if (state.error) {
+    return <h1>{state.error.message}</h1>;
+  }
 
   return (
     <Container>
       <h1 ref={title}>Todo App</h1>
       <TodoForm addTodo={addTodo} />
       <TodoList
-        todoList={todoList}
-        filterType={filterType}
+        todoList={state.data}
+        filterType="all"
         completeTodo={completeTodo}
         deleteTodo={deleteTodo}
       />
-      <TodoFooter setFilterType={setFilterType} />
+      {/* <TodoFooter setFilterType={setFilterType} /> */}
     </Container>
   );
 };

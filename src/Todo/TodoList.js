@@ -15,7 +15,6 @@ const TodoText = styled.h3`
 `;
 
 const TodoList = ({ todoList, filterType, completeTodo, deleteTodo }) => {
-  console.log('TodoList file');
   return (
     <For
       each="todo"
@@ -29,7 +28,7 @@ const TodoList = ({ todoList, filterType, completeTodo, deleteTodo }) => {
         return true;
       })}>
       <TodoContainer key={todo.id}>
-        <input type="checkbox" value={todo.isDone} onChange={() => completeTodo(todo)} />
+        <input type="checkbox" checked={todo.isDone} onChange={() => completeTodo(todo)} />
         <TodoText isDone={todo.isDone}>{todo.todoText}</TodoText>
         <input type="button" value="Delete" onClick={() => deleteTodo(todo)} />
       </TodoContainer>

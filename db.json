@@ -1,19 +1,9 @@
 {
   "todoList": [
     {
-      "todoText": "Get Milk",
+      "todoText": "asdfasdf",
       "isDone": false,
-      "id": 1
-    },
-    {
-      "todoText": "get food",
-      "isDone": false,
-      "id": 2
-    },
-    {
-      "todoText": "asdfasf",
-      "isDone": false,
-      "id": 3
+      "id": 8
     }
   ]
 }
