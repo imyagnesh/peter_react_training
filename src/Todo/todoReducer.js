@@ -2,6 +2,9 @@ import {
   ADD_TODO,
   DELETE_TODO,
   FAIL,
+  FILTER_TODO,
+  FILTET_TYPE_COMPLETED,
+  FILTET_TYPE_PENDING,
   LOAD_TODO,
   REQUEST,
   SUCCESS,
@@ -24,10 +27,15 @@ export default (state, { type, payload }) => {
       return { ...state, loading: true };
 
     case `${LOAD_TODO}_${SUCCESS}`:
-      return { ...state, loading: false, data: payload };
+      return { ...state, loading: false, data: payload, filtetedData: payload };
 
     case `${ADD_TODO}_${SUCCESS}`:
-      return { ...state, loading: false, data: [...state.data, payload] };
+      return {
+        ...state,
+        loading: false,
+        data: [...state.data, payload],
+        filtetedData: [...state.data, payload],
+      };
 
     case `${UPDATE_TODO}_${SUCCESS}`: {
       const i = state.data.findIndex(x => x.id === payload.id);
@@ -35,7 +43,21 @@ export default (state, { type, payload }) => {
         ...state,
         loading: false,
         data: [...state.data.slice(0, i), payload, ...state.data.slice(i + 1)],
+        filtetedData: [...state.data.slice(0, i), payload, ...state.data.slice(i + 1)],
       };
+    }
+
+    case FILTER_TODO: {
+      const filtetedData = state.data.filter(x => {
+        if (payload === FILTET_TYPE_COMPLETED) {
+          return x.isDone === true;
+        }
+        if (payload === FILTET_TYPE_PENDING) {
+          return x.isDone === false;
+        }
+        return true;
+      });
+      return { ...state, filtetedData };
     }
 
     case `${DELETE_TODO}_${SUCCESS}`: {

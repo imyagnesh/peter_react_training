@@ -1,5 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { LocaleProvider } from './context/localeContext';
+import { TodoProvider } from './context/todoContext';
 // import App from './App'
 import Todo from './Todo';
 // const a = 10;
@@ -13,4 +15,11 @@ import Todo from './Todo';
 
 // in html this is called attribute
 // in react text is called as props(properties)
-ReactDOM.render(<Todo />, document.getElementById('root'));
+ReactDOM.render(
+  <TodoProvider>
+    <LocaleProvider>
+      <Todo />
+    </LocaleProvider>
+  </TodoProvider>,
+  document.getElementById('root'),
+);

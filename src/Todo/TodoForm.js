@@ -22,17 +22,19 @@ const TodoForm = ({ addTodo }) => {
   };
 
   return (
-    <form onSubmit={onSubmit}>
-      <Label htmlFor="addTask">Add Task</Label>
-      <TextInput
-        ref={textInputRef}
-        id="addTask"
-        placeholder="Write your task here..."
-        value={todoText}
-        onChange={e => setTodoText(e.target.value)}
-      />
-      <input type="submit" value="Add Todo" />
-    </form>
+    <>
+      <form onSubmit={onSubmit}>
+        <Label htmlFor="addTask">Add Task</Label>
+        <TextInput
+          ref={textInputRef}
+          id="addTask"
+          placeholder="Write your task here..."
+          value={todoText}
+          onChange={e => setTodoText(e.target.value)}
+        />
+        <input type="submit" value="Add Todo" />
+      </form>
+    </>
   );
 };
 

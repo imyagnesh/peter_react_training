@@ -1,7 +1,7 @@
-import React, { memo } from 'react';
+import React, { memo, useContext } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { FILTET_TYPE_COMPLETED, FILTET_TYPE_PENDING } from '../constants';
+import { TodoContext } from '../context/todoContext';
 
 const TodoContainer = styled.div`
   display: flex;
@@ -14,19 +14,12 @@ const TodoText = styled.h3`
   text-decoration: ${props => (props.isDone ? 'line-through' : 'none')};
 `;
 
-const TodoList = ({ todoList, filterType, completeTodo, deleteTodo }) => {
+const TodoList = ({ completeTodo, deleteTodo }) => {
+  const {
+    state: { filtetedData },
+  } = useContext(TodoContext);
   return (
-    <For
-      each="todo"
-      of={todoList.filter(x => {
-        if (filterType === FILTET_TYPE_COMPLETED) {
-          return x.isDone === true;
-        }
-        if (filterType === FILTET_TYPE_PENDING) {
-          return x.isDone === false;
-        }
-        return true;
-      })}>
+    <For each="todo" of={filtetedData}>
       <TodoContainer key={todo.id}>
         <input type="checkbox" checked={todo.isDone} onChange={() => completeTodo(todo)} />
         <TodoText isDone={todo.isDone}>{todo.todoText}</TodoText>
@@ -37,20 +30,8 @@ const TodoList = ({ todoList, filterType, completeTodo, deleteTodo }) => {
 };
 
 TodoList.propTypes = {
-  todoList: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.number,
-      todoText: PropTypes.string,
-      isDone: PropTypes.bool,
-    }),
-  ).isRequired,
-  filterType: PropTypes.string,
   completeTodo: PropTypes.func.isRequired,
   deleteTodo: PropTypes.func.isRequired,
-};
-
-TodoList.defaultProps = {
-  filterType: 'all',
 };
 
 export default memo(TodoList);
