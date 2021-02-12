@@ -25,5 +25,21 @@
       "isDone": true,
       "id": 16
     }
+  ],
+  "products": [
+    {
+      "productName": "iphone",
+      "productPrice": "80000",
+      "stock": 10,
+      "productCategory": "mobile",
+      "id": 1
+    },
+    {
+      "productName": "weasdfa",
+      "productPrice": "asdfas",
+      "stock": 24234,
+      "productCategory": "mobile",
+      "id": 2
+    }
   ]
 }

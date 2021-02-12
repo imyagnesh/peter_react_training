@@ -8,7 +8,7 @@ const Navigation = () => {
       <nav>
         <ul>
           {routes.map(x => (
-            <li>
+            <li key={x.path}>
               <Link to={x.path}>{x.title}</Link>
             </li>
           ))}
@@ -17,7 +17,7 @@ const Navigation = () => {
       <main>
         <Switch>
           {routes.map(x => (
-            <Route {...x} />
+            <Route key={x.path} {...x} />
           ))}
         </Switch>
       </main>
