@@ -66,7 +66,7 @@ export const fields = [
     name: 'manufacturer',
     label: 'Manufacturer',
     value: '',
-    mapTo: 'productCategory',
+    mapto: 'productCategory',
     options: manufacturer,
     component: FormikSelect,
     validate: value => {

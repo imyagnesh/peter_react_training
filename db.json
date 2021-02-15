@@ -40,6 +40,30 @@
       "stock": 24234,
       "productCategory": "mobile",
       "id": 2
+    },
+    {
+      "productName": "iphone",
+      "productPrice": "60000",
+      "stock": 2,
+      "productCategory": "mobile",
+      "manufacturer": "apple",
+      "id": 3
+    },
+    {
+      "productName": "note 9",
+      "productPrice": "30000",
+      "stock": 20,
+      "productCategory": "mobile",
+      "manufacturer": "HP",
+      "id": 4
+    },
+    {
+      "productName": "iphone",
+      "productPrice": "asdfads",
+      "stock": 2,
+      "productCategory": "mobile",
+      "manufacturer": "samsung",
+      "id": 5
     }
   ]
 }

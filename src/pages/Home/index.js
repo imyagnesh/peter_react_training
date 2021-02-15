@@ -1,5 +1,6 @@
 import { Formik, Field } from 'formik';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { connect } from 'react-redux';
 import axios from '../../utils/axios';
 import Form from '../../components/Form';
 import FormikSelect from '../../components/FormikSelect';
@@ -12,22 +13,54 @@ const category = [
   { value: 'computer', text: 'Computer' },
 ];
 
-const Home = ({ history, location }) => {
-  const onSubmit = async (values, action) => {
-    console.log(action);
-    try {
-      const res = await axios.post('products', values);
-    } catch (error) {
-      action.setFieldError('server', error.message);
-    }
-    action.resetForm(initialValues);
-  };
+const Home = ({ history, location, loadProducts, products, addProduct }) => {
+  useEffect(() => {
+    loadProducts();
+    loadProducts();
+    loadProducts();
+    loadProducts();
+    loadProducts();
+    loadProducts();
+    loadProducts();
+    loadProducts();
+  }, []);
+
+  if (products.loading) {
+    return <h1>Loading....</h1>;
+  }
+
+  if (products.error) {
+    return <h1>{products.error.message}</h1>;
+  }
+
   return (
     <div>
       <h1>Home Page</h1>
-      <Form initialValues={initialValues} fields={fields} onSubmit={onSubmit} />
+      <input type="button" value="Load Products Request" onClick={() => loadProducts()} />
+      <Form initialValues={initialValues} fields={fields} onSubmit={addProduct} />
+      {products.data.length > 0 &&
+        products.data.map(x => (
+          <div>
+            <h3>{`Product Name: ${x.productName}`}</h3>
+            <h3>{`product Price: ${x.productPrice}`}</h3>
+          </div>
+        ))}
     </div>
   );
 };
 
-export default Home;
+const mapStateToProps = state => {
+  return {
+    products: state.products,
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    loadProducts: () => dispatch({ type: 'LOAD_PRODUCTS_REQUEST' }),
+    addProduct: (values, actions) =>
+      dispatch({ type: 'ADD_PRODUCTS_REQUEST', payload: values, meta: actions }),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Home);

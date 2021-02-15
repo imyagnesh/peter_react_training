@@ -4,18 +4,18 @@ const FormikSelect = ({ field, form: { touched, errors, values }, label, options
   const [list, setList] = useState(options);
 
   useEffect(() => {
-    if (props.mapTo) {
+    if (props.mapto) {
       console.log('check data');
-      setList(list.filter(x => x[props.mapTo] === values[props.mapTo]));
+      //   setList(list.filter(x => x[props.mapTo] === values[props.mapTo]));
     }
-  }, [values[props.mapTo]]);
+  }, [values[props.mapto]]);
 
   return (
     <div>
       <label htmlFor={field.name}>{label}</label>
       <select {...props} {...field}>
-        {list.map(x => (
-          <option key={x.value} value={x.value}>
+        {list.map((x, i) => (
+          <option key={i} value={x.value}>
             {x.text}
           </option>
         ))}

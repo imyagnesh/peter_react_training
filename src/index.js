@@ -1,10 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { Provider } from 'react-redux';
 import { LocaleProvider } from './context/localeContext';
 import { TodoProvider } from './context/todoContext';
 import Navigation from './Navigation';
 // import App from './App'
 import Todo from './Todo';
+import store from './store';
 // const a = 10;
 
 // const obj = {
@@ -23,4 +25,10 @@ import Todo from './Todo';
     </LocaleProvider>
   </TodoProvider> */
 }
-ReactDOM.render(<Navigation />, document.getElementById('root'));
+
+ReactDOM.render(
+  <Provider store={store}>
+    <Navigation />
+  </Provider>,
+  document.getElementById('root'),
+);
