@@ -28,7 +28,9 @@
     "styled-components": "^5"
   },
   "dependencies": {
+    "@loadable/component": "^5.14.1",
     "axios": "^0.21.1",
+    "date-fns": "^2.17.0",
     "formik": "^2.2.6",
     "prop-types": "^15.7.2",
     "react": "^17.0.1",

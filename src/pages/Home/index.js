@@ -25,6 +25,13 @@ const Home = ({ history, location, loadProducts, products, addProduct }) => {
     loadProducts();
   }, []);
 
+  const onAsyncDemo = () => {
+    import('date-fns').then(({ format }) => {
+      const formatedString = format(new Date(), 'MM dd yyyy');
+      console.log(formatedString);
+    });
+  };
+
   if (products.loading) {
     return <h1>Loading....</h1>;
   }
@@ -36,7 +43,7 @@ const Home = ({ history, location, loadProducts, products, addProduct }) => {
   return (
     <div>
       <h1>Home Page</h1>
-      <input type="button" value="Load Products Request" onClick={() => loadProducts()} />
+      <input type="button" value="Load Products Request" onClick={onAsyncDemo} />
       <Form initialValues={initialValues} fields={fields} onSubmit={addProduct} />
       {products.data.length > 0 &&
         products.data.map(x => (
